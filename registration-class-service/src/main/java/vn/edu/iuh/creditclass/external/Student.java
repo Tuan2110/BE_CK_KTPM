@@ -19,5 +19,6 @@ public class Student {
     private String phone;
     private Set<Long> completedSubjects;
     private Set<Long> registeredSubjects;
+    private Set<Long> currentClasses;
     private Long majorId;
 }

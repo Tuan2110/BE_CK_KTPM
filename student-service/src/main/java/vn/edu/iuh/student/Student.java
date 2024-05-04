@@ -34,6 +34,9 @@ public class Student implements UserDetails {
     @ElementCollection
     private Set<Long> registeredSubjects;
 
+    @ElementCollection
+    private Set<Long> currentClasses;
+
     private Long majorId;
 
     @Override

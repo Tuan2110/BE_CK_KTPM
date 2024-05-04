@@ -14,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CreditClassController {
     private final CreditClassService creditClassService;
+    private final SemesterRepository semesterRepository;
 
     @GetMapping
     public ResponseEntity<List<ClassDTO>> getCreditClassBySubjectId(@PathParam("subjectId") Long subjectId, @PathParam("semesterId") Long semesterId) {
@@ -22,5 +23,14 @@ public class CreditClassController {
     @PutMapping("/{classId}")
     public ResponseEntity<?> registerClass(@RequestHeader("Authorization") String token, @PathVariable Long classId) {
         return ResponseEntity.ok(creditClassService.registerClass(token,classId));
+    }
+    @GetMapping("/{classId}")
+    public ResponseEntity<ClassDTO> getClassById(@PathVariable Long classId) {
+        return ResponseEntity.ok(creditClassService.getClassById(classId));
+    }
+
+    @GetMapping("/semester")
+    public ResponseEntity<List<Semester>> getCreditClassBySemesterId() {
+        return ResponseEntity.ok(semesterRepository.findAll());
     }
 }

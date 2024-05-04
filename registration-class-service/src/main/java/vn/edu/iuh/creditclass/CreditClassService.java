@@ -70,9 +70,16 @@ public class CreditClassService {
             throw new RuntimeException("Student can't register more than 30 credits");
         }
         student.getRegisteredSubjects().add(creditClass.getSubjectId());
+        student.getCurrentClasses().add(creditClass.getId());
         System.out.println(student.getRegisteredSubjects());
         studentClient.updateStudent(token,student);
         creditClass.setNumberOfStudent(creditClass.getNumberOfStudent() + 1);
         return creditClassRepository.save(creditClass);
+    }
+
+    public ClassDTO getClassById(Long classId) {
+        CreditClass creditClass = creditClassRepository.findById(classId).orElseThrow(
+                () -> new RuntimeException("Class not found with id: " + classId));
+        return toClassDTO(creditClass);
     }
 }
