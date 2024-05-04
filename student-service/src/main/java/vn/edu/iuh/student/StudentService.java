@@ -80,6 +80,7 @@ public class StudentService {
         if(student.getMajorId() != null)
             existingStudent.setMajorId(student.getMajorId());
         existingStudent.setRegisteredSubjects(student.getRegisteredSubjects());
+        existingStudent.setCurrentClasses(student.getCurrentClasses());
         return studentRepository.save(existingStudent);
     }
 

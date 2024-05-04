@@ -23,14 +23,24 @@ public class StudentServiceApplication {
     CommandLineRunner init(StudentRepository studentRepository) {
         return args -> {
 //            Student student = new Student();
-//            student.setName("Student 2");
-//            student.setStudentId(123456L);
-//            student.setEmail("2@gmail.com");
-//            student.setPhone("1234567890");
+//            student.setName("Do Quoc Tuan");
+//            student.setStudentId(11111111L);
+//            student.setEmail("tuan@gmail.com");
+//            student.setPhone("0365221451");
 //            student.setMajorId(1L);
-//            student.setCompletedSubjects(Set.of(1L,2L,3L));
-//            student.setRegisteredSubjects(Set.of(4L,5L,6L));
+//            student.setPassword("123");
 //            studentRepository.save(student);
+//
+//            Student student1 = new Student();
+//            student1.setName("Nguyen Van A");
+//            student1.setStudentId(22222222L);
+//            student1.setEmail("a@gmail.com");
+//            student1.setPhone("0365221452");
+//            student1.setMajorId(2L);
+//            student1.setPassword("123");
+//            studentRepository.save(student1);
+
+
         };
     }
 }
