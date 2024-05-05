@@ -9,6 +9,7 @@ import vn.edu.iuh.creditclass.dto.SubjectDTO;
 import vn.edu.iuh.creditclass.external.Student;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class CreditClassService {
     private final CreditClassRepository creditClassRepository;
     private final SubjectClient subjectClient;
     private final StudentClient studentClient;
+    private final CalendarClassRepository calendarClassRepository;
 
     public List<ClassDTO> getCreditClassBySubjectId(Long subjectId, Long semesterId) {
         List<CreditClass> creditClasses = creditClassRepository.findBySubjectId(subjectId);
@@ -81,5 +83,37 @@ public class CreditClassService {
         CreditClass creditClass = creditClassRepository.findById(classId).orElseThrow(
                 () -> new RuntimeException("Class not found with id: " + classId));
         return toClassDTO(creditClass);
+    }
+
+    public CreditClass createClass(CreditClass creditClass) {
+        CreditClass creditClass1 = creditClassRepository.save(creditClass);
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(creditClass.getStartDate());
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(creditClass.getEndDate());
+
+        String location = "Room 101";
+
+        String teacher = "Teacher 1";
+
+        while (startCal.before(endCal)) {
+            Date startOfWeek = startCal.getTime();
+            //Add 3 hours to the start time
+            Date endOfWeek = new Date(startOfWeek.getTime() + 3 * 60 * 60 * 1000);
+
+            startCal.add(Calendar.DATE, 7); // Increment by one week
+
+            CalendarClass calendarClass = new CalendarClass();
+            calendarClass.setStart(startOfWeek);
+            calendarClass.setEnd(endOfWeek);
+            calendarClass.setLocation(location);
+            calendarClass.setTeacher(teacher);
+            calendarClass.setCreditClass(creditClass1); // Set the relation to this CreditClass
+
+            calendarClassRepository.save(calendarClass);
+        }
+
+        return creditClass1;
     }
 }

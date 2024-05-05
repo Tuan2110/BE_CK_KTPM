@@ -21,8 +21,14 @@ public class StudentController {
         return ResponseEntity.ok(studentService.createStudent(student));
     }
     @GetMapping("/profile")
-    public ResponseEntity<Student> getProfile(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok(studentService.getProfile(token));
+    public ResponseEntity<ApiResponse<?>> getProfile(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(
+                ApiResponse.builder()
+                        .data(studentService.getProfile(token))
+                        .status(200)
+                        .success(true)
+                        .build()
+        );
     }
 
     @PostMapping("/login")

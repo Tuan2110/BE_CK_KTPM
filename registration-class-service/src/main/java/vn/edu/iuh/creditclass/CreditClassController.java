@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.iuh.creditclass.dto.ClassDTO;
+import vn.edu.iuh.creditclass.response.ApiResponse;
 
 import java.util.List;
 
@@ -32,5 +33,16 @@ public class CreditClassController {
     @GetMapping("/semester")
     public ResponseEntity<List<Semester>> getCreditClassBySemesterId() {
         return ResponseEntity.ok(semesterRepository.findAll());
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<?>> createClass(@RequestBody CreditClass creditClass) {
+        return ResponseEntity.ok(
+                ApiResponse.builder()
+                        .status(200)
+                        .message("Create class success")
+                        .data(creditClassService.createClass(creditClass))
+                        .build()
+        );
     }
 }
