@@ -12,6 +12,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management
+    restart: unless-stopped
     container_name: rabbitmq
     ports:
       - "5672:5672"
@@ -22,10 +23,23 @@ services:
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
+    restart: unless-stopped
     ports:
       - "9411:9411"
     networks:
         - mysql
+      
+  redis:
+    image: redis:7.2.4
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis-data:/data
+    networks:
+      - mysql
+
 
 networks:
     mysql:

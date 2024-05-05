@@ -45,4 +45,8 @@ public class CreditClassController {
                         .build()
         );
     }
+    @GetMapping("/calendar")
+    public ResponseEntity<List<CalendarClass>> getCalendarClassByListClassId(@RequestParam List<Long> classIds) {
+        return ResponseEntity.ok(creditClassService.getCalendarClassByListClassId(classIds));
+    }
 }

@@ -116,4 +116,8 @@ public class CreditClassService {
 
         return creditClass1;
     }
+
+    public List<CalendarClass> getCalendarClassByListClassId(List<Long> classIds) {
+        return calendarClassRepository.findByCreditClassIdIn(classIds);
+    }
 }

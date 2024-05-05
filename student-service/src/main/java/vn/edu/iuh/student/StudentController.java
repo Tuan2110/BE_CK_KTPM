@@ -53,4 +53,8 @@ public class StudentController {
     public ResponseEntity<Student> updateStudent(@RequestHeader("Authorization") String token,@RequestBody Student student){
         return ResponseEntity.ok(studentService.updateStudent(token, student));
     }
+    @GetMapping("/calendar")
+    public ResponseEntity<?> getCalendarClassByStudentId(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(studentService.getCalendarClassByStudentId(token));
+    }
 }

@@ -5,9 +5,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import vn.edu.iuh.student.client.CreditClassClient;
 import vn.edu.iuh.student.client.MajorClient;
 import vn.edu.iuh.student.config.JwtTokenUtil;
 import vn.edu.iuh.student.dto.StudentDTO;
+import vn.edu.iuh.student.external.CalendarClass;
 import vn.edu.iuh.student.external.Major;
 
 import java.util.HashMap;
@@ -22,6 +24,7 @@ public class StudentService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
+    private final CreditClassClient creditClassClient;
 
     public String login(Long studentId, String password) {
         Optional<Student> optionalStudent = studentRepository.findByStudentId(studentId);
@@ -87,5 +90,10 @@ public class StudentService {
     public Student createStudent(Student student) {
         student.setPassword(passwordEncoder.encode(student.getPassword()));
         return studentRepository.save(student);
+    }
+
+    public List<CalendarClass> getCalendarClassByStudentId(String token) {
+        Student student = getProfile(token);
+        return creditClassClient.getCalendarClassByListClassId(student.getCurrentClasses().stream().toList()).getBody();
     }
 }
