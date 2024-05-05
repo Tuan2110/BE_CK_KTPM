@@ -15,6 +15,14 @@
         <module name="registration-class-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="gateway" target="17" />
+      <module name="major-service" target="17" />
+      <module name="registration-class-service" target="17" />
+      <module name="service-registry" target="17" />
+      <module name="student-service" target="17" />
+      <module name="subject-service" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

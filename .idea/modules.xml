@@ -3,6 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/BE_CK_KTPM.iml" filepath="$PROJECT_DIR$/.idea/BE_CK_KTPM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway/gateway.iml" filepath="$PROJECT_DIR$/gateway/gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/major-service/major-service.iml" filepath="$PROJECT_DIR$/major-service/major-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/registration-class-service/registration-class-service.iml" filepath="$PROJECT_DIR$/registration-class-service/registration-class-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-registry/service-registry.iml" filepath="$PROJECT_DIR$/service-registry/service-registry.iml" />
+      <module fileurl="file://$PROJECT_DIR$/student-service/student-service.iml" filepath="$PROJECT_DIR$/student-service/student-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/subject-service/subject-service.iml" filepath="$PROJECT_DIR$/subject-service/subject-service.iml" />
     </modules>
   </component>
 </project>
