@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.iuh.student.dto.LoginDTO;
 import vn.edu.iuh.student.dto.StudentDTO;
+import vn.edu.iuh.student.response.ApiResponse;
 
 import java.util.List;
 
@@ -25,8 +26,14 @@ public class StudentController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
-        return ResponseEntity.ok(studentService.login(loginDTO.getStudentId(), loginDTO.getPassword()));
+    public ResponseEntity<ApiResponse<?>> login(@RequestBody LoginDTO loginDTO) {
+        return ResponseEntity.ok(
+                ApiResponse.builder()
+                        .data(studentService.login(loginDTO.getStudentId(), loginDTO.getPassword()))
+                        .status(200)
+                        .success(true)
+                        .build()
+        );
     }
     @GetMapping
     public ResponseEntity<List<StudentDTO>> getAllStudents() {
