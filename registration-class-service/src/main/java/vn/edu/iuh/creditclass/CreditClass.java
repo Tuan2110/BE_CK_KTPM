@@ -11,6 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class CreditClass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
