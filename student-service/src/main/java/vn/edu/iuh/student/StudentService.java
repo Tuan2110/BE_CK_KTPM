@@ -7,13 +7,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import vn.edu.iuh.student.client.CreditClassClient;
 import vn.edu.iuh.student.client.MajorClient;
+import vn.edu.iuh.student.client.SubjectClient;
 import vn.edu.iuh.student.config.JwtTokenUtil;
 import vn.edu.iuh.student.dto.StudentDTO;
+import vn.edu.iuh.student.dto.SubjectDTO;
 import vn.edu.iuh.student.external.CalendarClass;
 import vn.edu.iuh.student.external.Major;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -25,6 +28,7 @@ public class StudentService {
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
     private final CreditClassClient creditClassClient;
+    private final SubjectClient subjectClient;
 
     public String login(Long studentId, String password) {
         Optional<Student> optionalStudent = studentRepository.findByStudentId(studentId);
@@ -95,5 +99,21 @@ public class StudentService {
     public List<CalendarClass> getCalendarClassByStudentId(String token) {
         Student student = getProfile(token);
         return creditClassClient.getCalendarClassByListClassId(student.getCurrentClasses().stream().toList()).getBody();
+    }
+
+    public int getTotalCredit(String token) {
+        Student student = getProfile(token);
+        List<SubjectDTO> subjects = subjectClient.getSubjectsByMajorId(student.getMajorId());
+        return subjects.stream().mapToInt(SubjectDTO::getCredit).sum();
+    }
+
+    public int getTotalCompletedCredit(String token) {
+        Student student = getProfile(token);
+        List<Long> subjectIds = student.getCompletedSubjects().stream().toList();
+        if (subjectIds.isEmpty()) {
+            return 0;
+        }
+        List<SubjectDTO> subjects = subjectClient.getCompletedSubjectsByMajorId(subjectIds);
+        return subjects.stream().mapToInt(SubjectDTO::getCredit).sum();
     }
 }

@@ -46,4 +46,14 @@ public class SubjectService {
                 orElseThrow(() -> new RuntimeException("Subject not found with id " + subjectId));
         return toSubjectDTO(subject);
     }
+
+    public List<SubjectDTO> getSubjectsByMajorId(Long majorId) {
+        List<Subject> subjects = subjectRepository.findByMajorId(majorId);
+        return subjects.stream().map(this::toSubjectDTO).collect(Collectors.toList());
+    }
+
+    public List<SubjectDTO> getCompletedSubjectsByMajorId(List<Long> subjectIds) {
+        List<Subject> subjects = subjectRepository.findByIdIn(subjectIds);
+        return subjects.stream().map(this::toSubjectDTO).collect(Collectors.toList());
+    }
 }

@@ -28,7 +28,7 @@ public class Student implements UserDetails {
     private String email;
     private String phone;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> completedSubjects;
 
     @ElementCollection
