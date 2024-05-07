@@ -9,12 +9,14 @@ import vn.edu.iuh.creditclass.CreditClass;
 import vn.edu.iuh.creditclass.CreditClassRepository;
 
 import java.util.Date;
+import java.util.TimeZone;
 
 @SpringBootApplication
 @EnableFeignClients
 public class RegistrationClassServiceApplication {
 
     public static void main(String[] args) {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         SpringApplication.run(RegistrationClassServiceApplication.class, args);
     }
 
