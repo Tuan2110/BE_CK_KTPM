@@ -58,12 +58,12 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getCalendarClassByStudentId(token));
     }
 
-    @GetMapping("/totalCredit")
+    @GetMapping("/total-credit")
     public ResponseEntity<?> getTotalCredit(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(studentService.getTotalCredit(token));
     }
 
-    @GetMapping("/totalCreditCompleted")
+    @GetMapping("/total-credit-completed")
     public ResponseEntity<?> getCompletedSubjects(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(studentService.getTotalCompletedCredit(token));
     }
