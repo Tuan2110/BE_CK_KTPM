@@ -53,7 +53,7 @@ public class CreditClassService {
     }
 
     public CreditClass registerClass(String token, Long classId) {
-        Student student = studentClient.getProfile(token);
+        Student student = studentClient.getProfile(token).getData();
         CreditClass creditClass = creditClassRepository.findById(classId).orElseThrow(
                 () -> new RuntimeException("Class not found with id: " + classId));
         SubjectDTO subject = subjectClient.getSubjectById(creditClass.getSubjectId());

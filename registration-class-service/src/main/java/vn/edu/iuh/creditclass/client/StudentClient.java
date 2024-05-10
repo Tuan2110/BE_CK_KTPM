@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import vn.edu.iuh.creditclass.external.Student;
+import vn.edu.iuh.creditclass.response.ApiResponse;
 
 @FeignClient(name = "STUDENT-SERVICE")
 public interface StudentClient {
 
     @GetMapping("/students/profile")
-    Student getProfile(@RequestHeader("Authorization") String token);
+    ApiResponse<Student> getProfile(@RequestHeader("Authorization") String token);
 
     @PutMapping("/students/update")
-    Student updateStudent(@RequestHeader("Authorization") String token,@RequestBody Student student);
+    ApiResponse<Student> updateStudent(@RequestHeader("Authorization") String token,@RequestBody Student student);
 }
