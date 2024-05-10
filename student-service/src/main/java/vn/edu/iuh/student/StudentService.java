@@ -3,6 +3,7 @@ package vn.edu.iuh.student;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import vn.edu.iuh.student.client.CreditClassClient;
@@ -11,8 +12,11 @@ import vn.edu.iuh.student.client.SubjectClient;
 import vn.edu.iuh.student.config.JwtTokenUtil;
 import vn.edu.iuh.student.dto.StudentDTO;
 import vn.edu.iuh.student.dto.SubjectDTO;
+import vn.edu.iuh.student.dto.ValidateTokenRequest;
+import vn.edu.iuh.student.dto.ValidateTokenResponse;
 import vn.edu.iuh.student.external.CalendarClass;
 import vn.edu.iuh.student.external.Major;
+import vn.edu.iuh.student.response.ApiResponse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +33,7 @@ public class StudentService {
     private final AuthenticationManager authenticationManager;
     private final CreditClassClient creditClassClient;
     private final SubjectClient subjectClient;
+    private final UserDetailsService userDetailsService;
 
     public String login(Long studentId, String password) {
         Optional<Student> optionalStudent = studentRepository.findByStudentId(studentId);
@@ -115,5 +120,11 @@ public class StudentService {
         }
         List<SubjectDTO> subjects = subjectClient.getCompletedSubjectsByMajorId(subjectIds);
         return subjects.stream().mapToInt(SubjectDTO::getCredit).sum();
+    }
+
+    public ValidateTokenResponse validateToken(ValidateTokenRequest token) {
+        final String studentId = jwtTokenUtil.extractStudentId(token.getToken());
+        Student userDetails = (Student) userDetailsService.loadUserByUsername(studentId);
+        return ValidateTokenResponse.builder().valid(jwtTokenUtil.validateToken(token.getToken(), userDetails)).build();
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.iuh.student.dto.LoginDTO;
 import vn.edu.iuh.student.dto.StudentDTO;
+import vn.edu.iuh.student.dto.ValidateTokenRequest;
+import vn.edu.iuh.student.dto.ValidateTokenResponse;
 import vn.edu.iuh.student.response.ApiResponse;
 
 import java.util.List;
@@ -14,6 +16,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentController {
     public final StudentService studentService;
+
+
+    @PostMapping("/token")
+    public ApiResponse<ValidateTokenResponse> validateToken(@RequestBody ValidateTokenRequest token) {
+        System.out.println("Token: " + token);
+        return ApiResponse.<ValidateTokenResponse>builder()
+                .data(studentService.validateToken(token))
+                .status(200)
+                .success(true)
+                .build();
+    }
 
 
     @PostMapping
