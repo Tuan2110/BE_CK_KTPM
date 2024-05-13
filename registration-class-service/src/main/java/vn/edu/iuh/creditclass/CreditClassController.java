@@ -23,7 +23,13 @@ public class CreditClassController {
     }
     @PutMapping("/{classId}")
     public ResponseEntity<?> registerClass(@RequestHeader("Authorization") String token, @PathVariable Long classId) {
-        return ResponseEntity.ok(creditClassService.registerClass(token,classId));
+        return ResponseEntity.ok(
+                ApiResponse.builder()
+                        .status(200)
+                        .message("Register class success")
+                        .data(creditClassService.registerClass(token,classId))
+                        .build()
+        );
     }
     @GetMapping("/{classId}")
     public ResponseEntity<ClassDTO> getClassById(@PathVariable Long classId) {
