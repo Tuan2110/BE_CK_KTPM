@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vn.edu.iuh.creditclass.client.StudentClient;
 import vn.edu.iuh.creditclass.client.SubjectClient;
+import vn.edu.iuh.creditclass.dto.ApiResponse;
 import vn.edu.iuh.creditclass.dto.ClassDTO;
 import vn.edu.iuh.creditclass.dto.EmailDetails;
 import vn.edu.iuh.creditclass.dto.SubjectDTO;
@@ -55,16 +56,24 @@ public class CreditClassService {
                 .build();
     }
 
-    public CreditClass registerClass(String token, Long classId) {
+    public ApiResponse<?> registerClass(String token, Long classId) {
         Student student = studentClient.getProfile(token).getData();
         CreditClass creditClass = creditClassRepository.findById(classId).orElseThrow(
                 () -> new RuntimeException("Class not found with id: " + classId));
         SubjectDTO subject = subjectClient.getSubjectById(creditClass.getSubjectId());
         if(creditClass.getNumberOfStudent() == creditClass.getMaxStudent()){
-            throw new RuntimeException("Class is full");
+            return ApiResponse.builder()
+                    .status(400)
+                    .message("Class is full")
+                    .data(null)
+                    .build();
         }
         if(!student.getCompletedSubjects().containsAll(subject.getPreSubject())){
-            throw new RuntimeException("Student has not completed pre-subjects");
+            return ApiResponse.builder()
+                    .status(400)
+                    .message("Student has not completed pre-subject")
+                    .data(null)
+                    .build();
         }
         int totalCredit = 0;
         for (Long subjectId : student.getRegisteredSubjects()) {
@@ -72,7 +81,11 @@ public class CreditClassService {
             totalCredit += subjectDTO.getCredit();
         }
         if((totalCredit + subject.getCredit()) > 30){
-            throw new RuntimeException("Student can't register more than 30 credits");
+            return ApiResponse.builder()
+                    .status(400)
+                    .message("Student has exceeded the maximum number of credits")
+                    .data(null)
+                    .build();
         }
         student.getRegisteredSubjects().add(creditClass.getSubjectId());
         student.getCurrentClasses().add(creditClass.getId());
@@ -84,7 +97,12 @@ public class CreditClassService {
         emailDetails.setSubject("Register class successfully");
         emailDetails.setMsgBody("You have successfully registered subject" + subject.getName() +" class " + creditClass.getClassCode());
         messageProducer.sendMessage(emailDetails);
-        return creditClassRepository.save(creditClass);
+        CreditClass saved = creditClassRepository.save(creditClass);
+        return ApiResponse.builder()
+                .status(200)
+                .message("Register class successfully")
+                .data(saved)
+                .build();
     }
 
     public ClassDTO getClassById(Long classId) {
@@ -127,5 +145,11 @@ public class CreditClassService {
 
     public List<CalendarClass> getCalendarClassByListClassId(List<Long> classIds) {
         return calendarClassRepository.findByCreditClassIdIn(classIds);
+    }
+
+    public List<ClassDTO> getRegisterClass(String token) {
+        Student student = studentClient.getProfile(token).getData();
+        List<CreditClass> creditClasses = creditClassRepository.findAllById(student.getRegisteredSubjects());
+        return creditClasses.stream().map(this::toClassDTO).toList();
     }
 }

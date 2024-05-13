@@ -17,19 +17,18 @@ public class CreditClassController {
     private final CreditClassService creditClassService;
     private final SemesterRepository semesterRepository;
 
+    @GetMapping("/register-class")
+    public ResponseEntity<List<ClassDTO>> getRegisterClass(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(creditClassService.getRegisterClass(token));
+    }
+
     @GetMapping
     public ResponseEntity<List<ClassDTO>> getCreditClassBySubjectId(@PathParam("subjectId") Long subjectId, @PathParam("semesterId") Long semesterId) {
         return ResponseEntity.ok(creditClassService.getCreditClassBySubjectId(subjectId,semesterId));
     }
     @PutMapping("/{classId}")
     public ResponseEntity<?> registerClass(@RequestHeader("Authorization") String token, @PathVariable Long classId) {
-        return ResponseEntity.ok(
-                ApiResponse.builder()
-                        .status(200)
-                        .message("Register class success")
-                        .data(creditClassService.registerClass(token,classId))
-                        .build()
-        );
+        return ResponseEntity.ok(creditClassService.registerClass(token, classId));
     }
     @GetMapping("/{classId}")
     public ResponseEntity<ClassDTO> getClassById(@PathVariable Long classId) {
