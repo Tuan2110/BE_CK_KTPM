@@ -17,13 +17,12 @@ public class SubjectService {
     private final StudentClient studentClient;
 
     public List<SubjectDTO> getSubjects(String token) {
-        List<Subject> subjects = subjectRepository.findAll();
         Student student = studentClient.getProfile(token).getData();
+        List<Subject> subjects = subjectRepository.findByMajorId(student.getMajorId());
         List<Subject> resultSubjects = new ArrayList<>();
         for (Subject subject : subjects) {
-            if(subject.getMajorId().equals(student.getMajorId())
-            && !student.getCompletedSubjects().contains(subject.getId())
-            && !student.getRegisteredSubjects().contains(subject.getId())
+            if(!student.getCompletedSubjects().contains(subject.getId())
+                && !student.getRegisteredSubjects().contains(subject.getId())
             ) {
                 resultSubjects.add(subject);
             }

@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import vn.edu.iuh.creditclass.client.StudentClient;
 import vn.edu.iuh.creditclass.client.SubjectClient;
 import vn.edu.iuh.creditclass.dto.ClassDTO;
+import vn.edu.iuh.creditclass.dto.EmailDetails;
 import vn.edu.iuh.creditclass.dto.SubjectDTO;
 import vn.edu.iuh.creditclass.external.Student;
+import vn.edu.iuh.creditclass.messaging.MessageProducer;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +22,7 @@ public class CreditClassService {
     private final SubjectClient subjectClient;
     private final StudentClient studentClient;
     private final CalendarClassRepository calendarClassRepository;
+    private final MessageProducer messageProducer;
 
     public List<ClassDTO> getCreditClassBySubjectId(Long subjectId, Long semesterId) {
         List<CreditClass> creditClasses = creditClassRepository.findBySubjectId(subjectId);
@@ -76,6 +79,11 @@ public class CreditClassService {
         System.out.println(student.getRegisteredSubjects());
         studentClient.updateStudent(token,student);
         creditClass.setNumberOfStudent(creditClass.getNumberOfStudent() + 1);
+        EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setRecipient(student.getEmail());
+        emailDetails.setSubject("Register class successfully");
+        emailDetails.setMsgBody("You have successfully registered subject" + subject.getName() +" class " + creditClass.getClassCode());
+        messageProducer.sendMessage(emailDetails);
         return creditClassRepository.save(creditClass);
     }
 
