@@ -5,10 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import vn.edu.iuh.student.Student;
-import vn.edu.iuh.student.StudentRepository;
-
-import java.util.Set;
+import vn.edu.iuh.repositories.StudentRepository;
 
 @SpringBootApplication
 @EnableFeignClients

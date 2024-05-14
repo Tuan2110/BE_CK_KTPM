@@ -5,10 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import vn.edu.iuh.creditclass.CreditClass;
-import vn.edu.iuh.creditclass.CreditClassRepository;
+import vn.edu.iuh.repositories.CreditClassRepository;
 
-import java.util.Date;
 import java.util.TimeZone;
 
 @SpringBootApplication

@@ -4,10 +4,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import vn.edu.iuh.major.Department;
-import vn.edu.iuh.major.DepartmentRepository;
-import vn.edu.iuh.major.Major;
-import vn.edu.iuh.major.MajorRepository;
+import vn.edu.iuh.repositories.DepartmentRepository;
+import vn.edu.iuh.repositories.MajorRepository;
 
 @SpringBootApplication
 public class MajorServiceApplication {
